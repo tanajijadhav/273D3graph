@@ -42,10 +42,13 @@ class LineChart extends React.Component {
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(xScale))
+      .style("font-size","15px"); 
+
     // y axis component createdxScale
     svg.append("g")
       .attr("class", "y axis")
-      .call(d3.axisLeft(yScale));
+      .call(d3.axisLeft(yScale))
+      .style("font-size","15px"); 
 
       svg.append("text")
     .style("font-size", "34px")
@@ -85,11 +88,11 @@ class LineChart extends React.Component {
       .attr("cy", function(d) { return yScale(d.y) })
       .attr("r", 5)
       .attr("x", function(d) {
-        console.log(x(d.x) - paddingForText)
+        // console.log(x(d.x) - paddingForText)
         return x(d.x) - paddingForText
     })
     .attr("y", function(d) {
-        console.log(y(d.y) + paddingForText)
+        // console.log(y(d.y) + paddingForText)
         return y(d.y) + paddingForText
     })
     .text(function(d) {
@@ -106,25 +109,25 @@ class LineChart extends React.Component {
     .style("font-size", "200%")
     .text("USA GDP Projection")
     .style("fill", "black")
-      
+     
+    //label
+    svg.append("g").selectAll("text")
+    .data(dataset)
+    .enter()
+    .append("text")
+    .attr("x", function(d) {
+        return x(d.x) - paddingForText
+    })
+    .attr("y", function(d) {
+        return y(d.y) + paddingForText
+    })
+    .attr("fill", "red")
+    .text(function(d) {
+        return d.x
+    })
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")") 
 
-      // // labels
-      // svg.append("g").selectAll("text")
-      //   .data(dataset)
-      //   .enter()
-      //   .append("text")
-      //   .attr("x", function(d) {
-      //       console.log(x(d.x) - paddingForText)
-      //       return x(d.x) - paddingForText
-      //   })
-      //   .attr("y", function(d) {
-      //       console.log(y(d.y) + paddingForText)
-      //       return y(d.y) + paddingForText
-      //   })
-      //   .text(function(d) {
-      //       console.log(d.x+" "+d.y)
-      //       return d.x+" "+d.y
-      //   });
+
     }
 
 
