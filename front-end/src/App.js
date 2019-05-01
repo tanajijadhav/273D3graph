@@ -57,6 +57,9 @@ class App extends Component {
         }
         return (
             <div>
+              {/* <h2 style={{marginLeft:"41%",color:"darkslategrey"}}>
+                USA GDP Projection
+              </h2> */}
               {output_div}
             </div>
         );

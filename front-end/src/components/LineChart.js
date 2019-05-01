@@ -5,9 +5,12 @@ class LineChart extends React.Component {
 
   drawChart = (dataset,margin,maxY) => {
     // console.log("maxY",maxY)
+    let paddingForText = 15
     var margin = {top: 150, right: 150, bottom: 150, left: 150}
     let width = window.innerWidth - margin.left - margin.right  
     let height = window.innerHeight - margin.top - margin.bottom;
+    var x = d3.scaleLinear().range([0, width]);
+    var y = d3.scaleLinear().range([height, 0]);
     
     var n = dataset.length;
 
@@ -26,9 +29,6 @@ class LineChart extends React.Component {
     .x(function(d, i) { return xScale(d.x); })
     .y(function(d) { return yScale(d.y); })
     .curve(d3.curveMonotoneX)
-
-    // var dataset = d3.range(n).map(function(d) { return {"y": d3.randomUniform(1)() } })
-    // console.log("----dataset-----\n",dataset)
 
     //svg created
     var svg = d3.select("body").append("svg")
@@ -49,9 +49,10 @@ class LineChart extends React.Component {
 
       svg.append("text")
     .style("font-size", "34px")
-    .style("fill", "#004669")
+    .style("fill", "#000000")
     .attr("class", "x label")
     .attr("text-anchor", "end")
+    .attr("class","legend")
     .attr("x", width-750)
     .attr("y", height+75)
     .attr("fill","black")
@@ -59,9 +60,10 @@ class LineChart extends React.Component {
     
     svg.append("text")
     .style("font-size", "34px")
-    .style("fill", "#004669")
+    .style("fill", "#000000")
     .attr("class", "y label")
     .attr("text-anchor", "end")
+    .attr("class","legend")
     .attr("y", -70)
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)") 
@@ -78,14 +80,53 @@ class LineChart extends React.Component {
     svg.selectAll(".dot")
       .data(dataset)
       .enter().append("circle")
-      .attr("x", (function(d) { return d.x }  ))
-      .attr("y", function(d) { return d.y})
       .attr("class", "dot")
       .attr("cx", function(d, i) { return xScale(d.x) })
       .attr("cy", function(d) { return yScale(d.y) })
       .attr("r", 5)
+      .attr("x", function(d) {
+        console.log(x(d.x) - paddingForText)
+        return x(d.x) - paddingForText
+    })
+    .attr("y", function(d) {
+        console.log(y(d.y) + paddingForText)
+        return y(d.y) + paddingForText
+    })
+    .text(function(d) {
+        console.log(d.x+" "+d.y)
+        return d.x+" "+d.y
+    });
 
+    //title
+    svg.append("text")
+    .attr("x", width / 2 )
+    .attr("y", -10)
+    .attr("class", "title")
+    .style("text-anchor", "middle")
+    .style("font-size", "200%")
+    .text("USA GDP Projection")
+    .style("fill", "black")
+      
+
+      // // labels
+      // svg.append("g").selectAll("text")
+      //   .data(dataset)
+      //   .enter()
+      //   .append("text")
+      //   .attr("x", function(d) {
+      //       console.log(x(d.x) - paddingForText)
+      //       return x(d.x) - paddingForText
+      //   })
+      //   .attr("y", function(d) {
+      //       console.log(y(d.y) + paddingForText)
+      //       return y(d.y) + paddingForText
+      //   })
+      //   .text(function(d) {
+      //       console.log(d.x+" "+d.y)
+      //       return d.x+" "+d.y
+      //   });
     }
+
 
   render() { 
 
