@@ -23,21 +23,28 @@ class App extends Component {
             let max = this.state.maxY
             let scaleDownValue = 1000000000000;
             response.data.data.map(elem => {
-              let temp = {};
-              temp["x"] = parseInt(elem.date)
-              let valueY = parseInt(elem.value || 0) / scaleDownValue;
-              temp["y"] = valueY;
-              if (max < valueY){
-                max = valueY
-              } 
-              graphData.push(temp);
+              if(elem.country.value="United States"){
+                let temp = {};
+                temp["x"] = parseInt(elem.date)
+                let valueY = parseInt(elem.value || 0) / scaleDownValue;
+                temp["y"] = valueY;
+                if (max < valueY){
+                  max = valueY
+                } 
+                graphData.push(temp);
+              }
             })
-            // console.log("Max",max)
+
             this.setState({
               data:graphData,
               maxY : max
             })
-        });
+        })
+        .catch(err => {
+          this.setState({
+            data:[]
+          })
+        })
     }
 
     render() {
@@ -46,7 +53,7 @@ class App extends Component {
           output_div = <LineChart data={this.state.data} margin={this.state.margin} maxY={this.state.maxY} />
         }
         else{
-          output_div = <p>No Data</p>
+          output_div = <p style={{marginLeft:"47%","marginTop":"18%",fontSize:"3pc",color:"grey"}}>No Data</p>
         }
         return (
             <div>
