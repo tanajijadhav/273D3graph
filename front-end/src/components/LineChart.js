@@ -48,15 +48,18 @@ class LineChart extends React.Component {
       .call(d3.axisLeft(yScale));
 
       svg.append("text")
+    .style("font-size", "34px")
+    .style("fill", "#004669")
     .attr("class", "x label")
     .attr("text-anchor", "end")
-    .attr("x", width-700)
-    .attr("y", height+50)
+    .attr("x", width-750)
+    .attr("y", height+75)
     .attr("fill","black")
     .text("Year");
-
     
     svg.append("text")
+    .style("font-size", "34px")
+    .style("fill", "#004669")
     .attr("class", "y label")
     .attr("text-anchor", "end")
     .attr("y", -70)
