@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
 
-let drawChart = (dataset,margin) => {
-    // var margin = {top: 200, right: 100, bottom: 100, left: 100}
+class LineChart extends React.Component {
+
+  drawChart = (dataset,margin,maxY) => {
+    console.log("maxY",maxY)
+    var margin = {top: 150, right: 150, bottom: 150, left: 150}
     let width = window.innerWidth - margin.left - margin.right  
     let height = window.innerHeight - margin.top - margin.bottom;
     
@@ -13,7 +16,7 @@ let drawChart = (dataset,margin) => {
     .range([0, width]);
 
     var yScale = d3.scaleLinear()
-    .domain([0, 1])
+    .domain([0, maxY])
     .range([height, 0]);
 
     // line generator called
@@ -22,8 +25,8 @@ let drawChart = (dataset,margin) => {
     .y(function(d) { return yScale(d.y); })
     .curve(d3.curveMonotoneX)
 
-    var dataset = d3.range(n).map(function(d) { return {"y": d3.randomUniform(1)() } })
-    console.log("----dataset-----\n",dataset)
+    // var dataset = d3.range(n).map(function(d) { return {"y": d3.randomUniform(1)() } })
+    // console.log("----dataset-----\n",dataset)
 
     //svg created
     var svg = d3.select("body").append("svg")
@@ -57,22 +60,13 @@ let drawChart = (dataset,margin) => {
       .attr("cx", function(d, i) { return xScale(i) })
       .attr("cy", function(d) { return yScale(d.y) })
       .attr("r", 5);
-}
-
-class LineChart extends React.Component {
-  constructor(){
-      super();
-
-      this.state = {
-        index : 0
-      }
     }
 
   render() { 
 
     return (    
       <div>
-        {drawChart(this.props.data,this.props.margin)}
+        {this.drawChart(this.props.data,this.props.margin,this.props.maxY)}
       </div>  
     )
   }
