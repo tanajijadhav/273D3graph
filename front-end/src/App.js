@@ -18,9 +18,16 @@ class App extends Component {
     componentDidMount(){
       axios.get("http://localhost:3001/api/graph")
           .then((response) => {
-              this.setState({
-                data : response.data.data
-              })
+            let graphData = []
+            response.data.data.map(elem => {
+              let temp = {};
+              temp["x"] = parseInt(elem.date)
+              temp["y"] = parseInt(elem.value || 0) / 1000000000;
+              graphData.push(temp);
+            })
+            this.setState({
+              data:graphData
+            })
         });
     }
 
